@@ -16,3 +16,10 @@ isn't very clear to me yet.
 the function yet!
 * Got into some github cleaning trouble and ended up refreshing the entire
   repo...
+
+## Day 2
+* I like sum types.
+* There is some redundancy in question 2 because I'm re-calculating the result of the round even if that was given from the start.
+* There's probably a fancier way to write `beat` and `let_win` (they're each other's inverse) but don't know how.
+* I used Scanf "in the wild"!
+* I'd like to learn how to export some common functions (read, sum_list, etc) to a little utility library so that I don't have to copy/paste them into main every time.
