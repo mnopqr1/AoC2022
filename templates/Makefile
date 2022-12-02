@@ -1,2 +1,2 @@
 all:
-	dune exec bin/main.exe < input.txt
+	dune build && dune exec bin/main.exe < input.txt
