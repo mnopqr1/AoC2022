@@ -33,3 +33,5 @@ _opam/
 
 # script containing sensitive info
 start
+
+.vscode/

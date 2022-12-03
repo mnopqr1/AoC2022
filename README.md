@@ -23,3 +23,9 @@ the function yet!
 * There's probably a fancier way to write `beat` and `let_win` (they're each other's inverse) but don't know how.
 * I used Scanf "in the wild"!
 * I'd like to learn how to export some common functions (read, sum_list, etc) to a little utility library so that I don't have to copy/paste them into main every time.
+
+## Day 3
+
+* Learned how to use the `Seq` type. Its methods `find` and `exists` make it easy to check duplicates.
+* For the second part, I wrote an ad hoc `map3` function that takes three elements of a list at a time. There's probably a better way.
+* Still figuring out how to use a Module to make a separate class of utilities to avoid copying code from one day to the next.
