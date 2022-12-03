@@ -29,3 +29,4 @@ the function yet!
 * Learned how to use the `Seq` type. Its methods `find` and `exists` make it easy to check duplicates.
 * For the second part, I wrote an ad hoc `map3` function that takes three elements of a list at a time. There's probably a better way.
 * Still figuring out how to use a Module to make a separate class of utilities to avoid copying code from one day to the next.
+* Practiced a bit with documenting my code.
