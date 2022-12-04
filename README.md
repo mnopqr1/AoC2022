@@ -29,6 +29,7 @@ the function yet!
 * Learned how to use the `Seq` type. Its methods `find` and `exists` make it easy to check duplicates.
 * For the second part, I wrote an ad hoc `map3` function that takes three elements of a list at a time. There's probably a better way.
 * Still figuring out how to use a Module to make a separate class of utilities to avoid copying code from one day to the next.
+* Practiced a bit with documenting my code.
 
 ## Day 4
 
@@ -40,3 +41,4 @@ the function yet!
     2. I define the utility functions there, including a `.mli` compilation unit file. 
     3. I created a symbolic link in day4/vendor: `mkdir vendor && cd vendor && ln -s ../../aocutils/ aocutils`. 
   I'm not sure if this is how one is supposed to do it but it allows me to call `read` from the day4 `main` file, once I put `open Aocutils` at the top. What took me the longest was to figure out how to get `read` into the namespace, so as to avoid having to write `Aocutils.read`. This requires defining the signature, that's what the `.mli` file in the `aocutils` directory is for!
+=======
