@@ -5,3 +5,8 @@ let read =
      | None -> acc
      | Some l -> loop (l :: acc)
   in loop []
+
+let mappair f (a, b) = (f a, f b)
+
+let split2 c s = match String.split_on_char c s with
+  | [a;b] -> (a,b) | _ -> raise (Invalid_argument ("parsing error on " ^ Char.escaped c))
