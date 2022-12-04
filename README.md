@@ -29,3 +29,14 @@ the function yet!
 * Learned how to use the `Seq` type. Its methods `find` and `exists` make it easy to check duplicates.
 * For the second part, I wrote an ad hoc `map3` function that takes three elements of a list at a time. There's probably a better way.
 * Still figuring out how to use a Module to make a separate class of utilities to avoid copying code from one day to the next.
+
+## Day 4
+
+* Had to tinker for a while to get the parsing in a nice shape, but happy with how clean `parse_line` looks in the end.
+* A technical question came up that I still need to think about how I'm going to formulate it well.
+* Part 2 was almost immediate after having done part 1 in a modular way. Today's puzzle felt particularly smooth for a functional language.
+* I figured out (with some pain, I did not find clear OCaml/Dune documentation on this point) a way to put the utilities in a separate library: 
+    1. I ran `dune init proj --kind=lib aocutils`.
+    2. I define the utility functions there, including a `.mli` compilation unit file. 
+    3. I created a symbolic link in day4/vendor: `mkdir vendor && cd vendor && ln -s ../../aocutils/ aocutils`. 
+  I'm not sure if this is how one is supposed to do it but it allows me to call `read` from the day4 `main` file, once I put `open Aocutils` at the top. What took me the longest was to figure out how to get `read` into the namespace, so as to avoid having to write `Aocutils.read`. This requires defining the signature, that's what the `.mli` file in the `aocutils` directory is for!

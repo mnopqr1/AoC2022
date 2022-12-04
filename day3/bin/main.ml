@@ -49,7 +49,7 @@ let map3 f xs =
 
 let solve1 ins = 
   let rs = List.map mid_split ins in
-  List.map (fun x -> value @@ find_common2 x) rs 
+  List.map (fun (a,b) -> value @@ find_common2 (a,b)) rs 
   |> sum_list
 
 let solve2 ins = 
