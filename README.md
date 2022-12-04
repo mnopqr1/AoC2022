@@ -34,7 +34,7 @@ the function yet!
 ## Day 4
 
 * Had to tinker for a while to get the parsing in a nice shape, but happy with how clean `parse_line` looks in the end.
-* A technical question came up that I still need to think about how I'm going to formulate it well.
+* In writing `parse_line`, a technical question came up about applying functions to arguments, I still need to think about how I'm going to formulate it well.
 * Part 2 was almost immediate after having done part 1 in a modular way. Today's puzzle felt particularly smooth for a functional language.
 * I figured out (with some pain, I did not find clear OCaml/Dune documentation on this point) a way to put the utilities in a separate library: 
     1. I ran `dune init proj --kind=lib aocutils`.
