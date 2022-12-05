@@ -42,3 +42,16 @@ the function yet!
     3. I created a symbolic link in day4/vendor: `mkdir vendor && cd vendor && ln -s ../../aocutils/ aocutils`. 
   
   I'm not sure *at all* if this is how one is supposed to do it but it allows me to call `read` from the day4 `main` file, once I put `open Aocutils` at the top. What took me the longest was to figure out how to get `read` into the namespace, so as to avoid having to write `Aocutils.read`. This requires defining the signature, that's what the `.mli` file in the `aocutils` directory is for!
+
+## Day 5
+
+* The parsing functions took me a loooong time to get right. I knew what I wanted to do: split the input at the line containing the labels, and then parse the stacks and the instructions individually. But the splitting function took me a while to get right and the stack parsing is a bit ugly (I directly calculate the indices of the columns containing characters).
+* I tried to automate testing but failed in battles with dune.
+* I found OCaml to be frustratingly uncooperative today and would have been way faster if I did it in Python. The documentation isn't super helpful either. Is there really no easier way to build the list of the first `n` integers than to write the recursion by hand??
+* If I want to be able to use it more effectively, I'd need to learn how to pretty print intermediate results.
+* I learned how to (temporarily) get rid of warnings in dune: create a file `dune` in the project top-level directory and put
+```
+(env
+  (dev
+    (flags (:standard -w -32))))
+```

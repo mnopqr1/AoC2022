@@ -1,8 +1,6 @@
 module Day4 = struct
 open Aocutils
 
-let (>>) f g = fun x -> g (f x)
-
 (** [parse_line] converts a line of the form "a1-b1,a2-b2" to a pair of pairs of ints *)
 let parse_line = (split2 ',') >> mappair ((split2 '-') >> mappair int_of_string)
 
