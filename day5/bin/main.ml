@@ -18,10 +18,11 @@ let string_of_instruction i =
 let init_stacks (a : string list) = 
   let n = (String.length (List.hd a) + 1) / 4 in
   let stacks = Array.init n (fun _ -> Stack.create ()) in
-  let _ = List.iter (fun l -> 
-  let xs = List.map (fun i -> l.[4 * i + 1]) (ints (Array.length stacks)) in
-  List.iteri (fun i x -> if not (x = ' ') then Stack.push x stacks.(i)) xs
-  ) @@ List.rev a in 
+  let parse_line l = 
+    let xs = List.map (fun i -> l.[4 * i + 1]) (ints n) in
+    List.iteri (fun i x -> if not (x = ' ') then Stack.push x stacks.(i)) xs
+  in
+  let _ = List.iter parse_line @@ List.rev a in 
   stacks
 
 let parse_instructions = List.map
