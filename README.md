@@ -55,3 +55,10 @@ the function yet!
   (dev
     (flags (:standard -w -32))))
 ```
+
+## Day 6
+
+* My solution to part 1 was ugly because it was early and I didn't think about how to do it properly.
+* I managed to hack part 2 in OCaml but the runtime was horrible (over a minute).
+* Just as a sanity check, after solving both stars in OCaml, I wrote a Python version using a `Counter`, which I was able to do much faster and which gave the answer instantly.
+* There probably also exists a thing like `Counter` in OCaml... Or I guess I could just use a list as a map...
