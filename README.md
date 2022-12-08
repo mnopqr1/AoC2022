@@ -70,3 +70,11 @@ the function yet!
 * Being able to do print debugging was very helpful here...
 * I did not notice until after solving the puzzle that the input has some special properties, making it actually a bit easier than I thought it would be. For example, in the puzzle input, the only`cd /`is at the first line -- I abandoned my OCaml solution because I thought it was a possibility that I might have to go to the top of the tree at some point. Also, we always see a directory in an `ls` before doing `cd` into it. Thanks to this last point, [some of my code](https://github.com/mnopqr1/AoC2022/blob/1f14e599970639f64506ecc13aa3dce51cad7404/day7/day7.py#L21) miraculously works and never returns `None`...
 * If there's any OCaml influence on my Python code it's that I used a lambda to unify my solutions to parts 1 and 2!
+
+## Day 8
+
+* I did part 1 in the morning and part 2 in the evening. I think more clearly in the morning!
+* I forgot to commit part 1 and did part 2 on a different computer ...
+* Definitely did not feel like doing this in OCaml today. This is the kind of exercise I'm very used to doing in Python, and Python works well for it.
+* Learned the trick of using dictionaries instead of grids from Adam last year.
+* The solution is not the cleanest possible but ... it works.
