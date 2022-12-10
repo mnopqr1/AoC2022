@@ -82,3 +82,7 @@ the function yet!
 * This felt like programming the game Snake. I liked it.
 * I was happy with the print debugging functions that I wrote, this made it fairly painless to correct small mistakes
 * The actual move logic became shorter between part 1 and 2! And the difference between parts 1 and 2 is now just one parameter (`LENGTH`).
+
+## Day 10
+* This was easier than I thought it would be when reading the problem. The tricky part for me was getting the off-by-one cycle count right.
+* Part 2 was especially fun!
