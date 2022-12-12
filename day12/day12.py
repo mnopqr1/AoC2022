@@ -5,6 +5,10 @@ ELEV: Dict[str, int] = {chr(x + 96): x for x in range(1,27,1)}
 ELEV['S'] = 1
 ELEV['E'] = 26
 
+def gridstr(g) -> str:
+    return "\n".join(",".join(str(g[(i,j)]) for j in range(W)) for i in range(H))
+
+
 def read(filename):
     with open(filename) as f:
         rawgrid = [[c for c in l.rstrip()] for l in f.readlines()]
@@ -22,6 +26,7 @@ def read(filename):
                 e = (i,j)
     return grid, H, W, s, e
 
+
 def graph(g: Dict[Tuple[int,int],int], reverse=False):
     edges: Dict[Tuple[int,int],Set[Tuple[int,int]]] = {p : set() for p in P}
     for q in P:
@@ -32,16 +37,17 @@ def graph(g: Dict[Tuple[int,int],int], reverse=False):
                 else: edges[q].add(p)
     return edges
 
+
 def shortest_path_to(G: Dict[Tuple[int,int], Set[Tuple[int,int]]], s):
     # d[q] is the length of a shortest path from s to q
     d: Dict[Tuple[int,int],Any] = {p: inf for p in P}    
+    d[s] = 0
     # pr[q] is the previously visited node 
     pr: Dict[Tuple[int,int], Tuple[int,int]] = dict()
     
     Q = []
     for p in P:
         Q.append(p)
-    d[s] = 0
     Q = sorted(Q, key=lambda p: d[p])
 
     while len(Q) > 0:
@@ -55,8 +61,6 @@ def shortest_path_to(G: Dict[Tuple[int,int], Set[Tuple[int,int]]], s):
         Q = sorted(Q, key=lambda p: d[p])
     return d
 
-def gridstr(g) -> str:
-    return "\n".join(",".join(str(g[(i,j)]) for j in range(W)) for i in range(H))
 
 if __name__ == "__main__":
     grid, H, W, s, e = read("input.txt")
