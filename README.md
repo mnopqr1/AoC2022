@@ -86,3 +86,11 @@ the function yet!
 ## Day 10
 * This was easier than I thought it would be when reading the problem. The tricky part for me was getting the off-by-one cycle count right.
 * Part 2 was especially fun!
+
+## Day 13
+* Back to writing notes after two days break... what happened? I implemented Dijkstra's algorithm and made monkeys throw items to eachother.
+* On day 11 people got very excited about the [remainder theorem of Sun-tzu Suan-ching](https://en.wikipedia.org/wiki/Chinese_remainder_theorem). It's nice to see a puzzle that requires some number theory to solve.
+* Back to today: parsing by hand took me a while but it's so satisfying when it actually works.
+* I kind of felt that my compare function was going to need three values, not two, but still stubbornly tried for a while to write a compare function that returned a `bool`. Then for some reason I decided to let it return `str` and not more sane values like 0, -1, 1?
+* Some googling to find the `cmp_to_key` solution which made part 2 easy. Fortunately my `compare` function was efficient enough to make sorting immediate. But seeing the size of the input (<400 items) I guess it's not a huge stress test.
+* Prompted by an RC discussion, read up a bit about the (un)safety of parsing, and included an [example](day13/liteval.py) of why it 
