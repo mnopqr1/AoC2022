@@ -93,4 +93,9 @@ the function yet!
 * Back to today: parsing by hand took me a while but it's so satisfying when it actually works.
 * I kind of felt that my compare function was going to need three values, not two, but still stubbornly tried for a while to write a compare function that returned a `bool`. Then for some reason I decided to let it return `str` and not more sane values like 0, -1, 1?
 * Some googling to find the `cmp_to_key` solution which made part 2 easy. Fortunately my `compare` function was efficient enough to make sorting immediate. But seeing the size of the input (<400 items) I guess it's not a huge stress test.
-* Prompted by an RC discussion, read up a bit about the (un)safety of parsing, and included an [example](day13/liteval.py) of why it 
+* Prompted by an RC discussion, read up a bit about the (un)safety of parsing, and included an [example](day13/liteval.py) of why it is unsafe.
+
+## Day 14
+* Definitely not the prettiest code but it (sort of) works?
+* In part 1 there was an off by one error that's not there in part 2...
+* I'm happy with my `add_line` logic. Less so with my `dropsand` logic.
