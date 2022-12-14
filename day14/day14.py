@@ -17,7 +17,7 @@ WALL = Material.Wall
 EMPTY = Material.Empty
 SAND = Material.Sand
 if SANTAMODE:
-    SYMBOL = {WALL: "🎅", EMPTY: "  ", SAND: "🎄"}
+    SYMBOL = {WALL: "🎄", EMPTY: "  ", SAND: "🎅"}
 else:
     SYMBOL = {WALL: "#", EMPTY: ".", SAND: "o"}
 
@@ -70,7 +70,7 @@ class Grid:
         s = ""
         for y in range(0, self.maxy+3, 1):
             s += "{:3.0f}".format(y) + " "
-            for x in range(self.minx-100, self.maxx+100, 1):
+            for x in range(self.minx-10, self.maxx+10, 1):
                 s += SYMBOL[self.g[(x, y)]]
             s += "\n"
         return s
@@ -87,7 +87,7 @@ def read(filename):
 
 
 if __name__ == "__main__":
-    G = read("input.txt")
+    G = read("example.txt")
 
     print(G)
     c = 0
