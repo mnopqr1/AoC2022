@@ -99,3 +99,8 @@ the function yet!
 * Definitely not the prettiest code but it (sort of) works?
 * In part 1 there was an off by one error that's not there in part 2...
 * I'm happy with my `add_line` logic. Less so with my `dropsand` logic.
+
+## Day 15
+* Did the first part "by hand", not efficient but it worked
+* For the second part, worked out the constraints by hand, thought for quite a while about how to solve it with rectangle logic, got stuck implementing it, asked Z3 to solve this linear programming problem and it gave the answer in less than a second.
+* Sat-solvers are cool and mysterious tools but also feel a bit like cheating!
