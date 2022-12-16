@@ -1,6 +1,7 @@
 NAME = dict()
 ID = dict()
 
+
 def read(filename):
     with open(filename) as f:
         lines = [l for l in f.readlines()]
@@ -21,17 +22,21 @@ def read(filename):
     assert cnt == len(lines) and all(NAME[ID[n]] == n for n in ID.keys())
     return nodes, values
 
+
 def solve(nodes, values):
-    """D[t][n][s] with 2 <= t <= 30, n a node id, and s a set of valuable nodes (represented as bitstring), contains the maximum attainable value at time t when starting from node n if the nodes in s are still closed."""
-    
-    # Initialization, t = 2. 
+    """D[t][n][s] with 2 <= t <= 30, n a node id, and s a set of valuable nodes (represented as 
+    bitstrings), contains the maximum attainable value at time t when starting from node n if the 
+    nodes in s are still closed."""
+
+    # Initialization, t = 2.
     # All you can do is open the valve where you are now, if it is still closed, and get 1 minute of pressure out of it.
     D = [[], []]
     maxval = [[]] * N
     for n in range(N):
         maxval[n] = [0] * V
         for s in range(V):
-            if n in valuable and (s >> VAL_ID[n]) % 2: # the valve is still closed
+            # the valve is still closed
+            if n in valuable and (s >> VAL_ID[n]) % 2:
                 maxval[n][s] = values[n]
     D.append(maxval)
 
@@ -45,20 +50,21 @@ def solve(nodes, values):
                 # option 1: open the valve where you are now, if it's valuable & closed
                 if n in valuable and (s >> VAL_ID[n]) % 2:
                     thisvalve = values[n] * (t-1)
-                    new_s = s - (1 << VAL_ID[n]) # set valve to open
+                    new_s = s - (1 << VAL_ID[n])  # set valve to open
                     scores.append(thisvalve + D[t-1][n][new_s])
                 # option 2: go somewhere else
-                for m in nodes[n]: # for each neighbor node
+                for m in nodes[n]:  # for each neighbor node
                     scores.append(D[t-1][m][s])
                 maxval[n][s] = max(scores)
         D.append(maxval)
     ALL = V - 1
     return D[30][ID["AA"]][ALL]
 
+
 if __name__ == "__main__":
     nodes, values = read("input.txt")
     N = len(nodes)
     valuable = [n for n in range(N) if values[n] != 0]
     V = 2 ** len(valuable)
-    VAL_ID = {valuable[i] : i for i in range(len(valuable))}    
+    VAL_ID = {valuable[i]: i for i in range(len(valuable))}
     print(solve(nodes, values))
