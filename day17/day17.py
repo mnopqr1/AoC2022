@@ -1,3 +1,4 @@
+from functools import lru_cache
 import sys
 
 symbol = {0: ".", 1: "#", 2: "+"}
@@ -6,6 +7,13 @@ PIECES = {0 : [[1,1,1,1]],
          2 : [[1,1,1], [0,0,1], [0,0,1]],
          3 : [[1],[1],[1],[1]],
          4 : [[1,1],[1,1]]}
+# other representation of pieces
+PIECES = {0 : [[0,1,2,3]],
+          1 : [[1],[0,1,2],[1]],
+          2 : [[0,1,2], [2], [2]],
+          3 : [[0],[0],[0],[0]],
+          4 : [[0,1],[0,1]]}
+
 MOVES = {"<": -1, ">": +1}
 
 debug = False
@@ -26,63 +34,56 @@ def spawn(b: list[list[int]], p: int, h: int) -> tuple[int,int]:
     for i in range(len(piece)):
         while len(b) - 1 < pos[0] + i:
             b.append([0] * WIDTH)
-        for j, x in enumerate(piece[i]):
-            if x:
-                b[pos[0] + i][2 + j] = 2
+        for dx in piece[i]:
+                b[pos[0] + i][pos[1] + dx] = 2
     return pos
 
-def can_move_to(b, piece, newpos) -> bool:
+def move_to(b, piece, curpos: tuple[int, int], newpos: tuple[int, int]) -> bool:
+    cury, curx = curpos
     newy, newx = newpos
     if newx < 0 or newy < 0:
         return False
     for i in range(len(piece)):
-        for j, c in enumerate(piece[i]):
-            if c:
-                if newx + j >= WIDTH or b[newy + i][newx + j] == 1:
-                    return False
+        for dx in piece[i]:
+            if newx + dx >= WIDTH or b[newy + i][newx + dx] == 1:
+                return False
+            b[cury + i][curx + dx] = 0
+    for i in range(len(piece)):
+        for dx in piece[i]:
+            b[newy + i][newx + dx] = 2
     return True
-
-def move_to(b, piece, curpos: tuple[int, int], newpos: tuple[int, int]):
-    cury, curx = curpos
-    newy, newx = newpos
-    for i in range(len(piece)):
-        for j, c in enumerate(piece[i]):
-            if c:
-                b[cury + i][curx + j] = 0
-    for i in range(len(piece)):
-        for j, c in enumerate(piece[i]):
-            if c:
-                b[newy + i][newx + j] = 2
 
 def stop_piece(b, piece: list[list[int]], pos: tuple[int,int]):
     cury, curx = pos
     for i in range(len(piece)):
-        for j, c in enumerate(piece[i]):
-            if c:
-                b[cury + i][curx + j] = 1
+        for dx in piece[i]:
+            b[cury + i][curx + dx] = 1
 
 def do_move(b: list[list[int]], p: int, pos: tuple[int,int], move: str):
     dx = MOVES[move]
     cury, curx = pos
     newpos = cury, curx + dx
     piece = PIECES[p]
-    if not can_move_to(b, piece, newpos):
+    if move_to(b, piece, pos, newpos):
+        return newpos
+    else:
         return pos
-    move_to(b, piece, pos, newpos)    
-    return newpos
 
 def gravity(b: list[list[int]], p: int, pos: tuple[int,int], h: int) -> tuple[tuple[int,int],bool, int]:
     dy = -1
     cury, curx = pos
     newpos = cury + dy, curx
     piece = PIECES[p]
-    if not can_move_to(b, piece, newpos):
+    if move_to(b, piece, pos, newpos):
+        return newpos, False, h
+    else:
         if cury + len(piece) > h:
             h = cury + len(piece)
         stop_piece(b, piece, pos)
         return pos, True, h
-    move_to(b, piece, pos, newpos)
-    return newpos, False, h
+    
+
+ANSWERS = {50_000: 78050, 100_000: 156093}
 
 if __name__ == "__main__":
     with open(sys.argv[1]) as f:
@@ -90,6 +91,7 @@ if __name__ == "__main__":
     WIDTH = 7
     INITH = 0
     STOP = 2022
+    STOP = 1_000_000
     # STOP = 1_000_000_000_000
     board = init()
 
@@ -124,5 +126,7 @@ if __name__ == "__main__":
             print(board_to_str(board))
             if wait: input()
 
+    if sys.argv[1] == "input.txt" and STOP in ANSWERS.keys():
+        assert h == ANSWERS[STOP]
     print(h)
 
