@@ -91,7 +91,7 @@ if __name__ == "__main__":
     WIDTH = 7
     INITH = 0
     STOP = 2022
-    STOP = 1_000_000
+    STOP = 100_000
     # STOP = 1_000_000_000_000
     board = init()
 
@@ -108,23 +108,23 @@ if __name__ == "__main__":
             p = (p + 1) % 5
             if c == STOP + 1:
                 break
-            if c % 10_000 == 0 and debug: print(f"Spawn new piece #{c} of type {p}")
+            #if c % 10_000 == 0 and debug: print(f"Spawn new piece #{c} of type {p}")
             pos = spawn(board, p, h)
             #print(f"New piece position: {pos}, height: {h}")
             c += 1
             stopped = False
         pos = do_move(board, p, pos, jet[m % J])
         m += 1
-        if debug:
-            print(f"Move: {jet[m % J]}")
-            print(board_to_str(board))
-            if wait: input()
+        # if debug:
+        #     print(f"Move: {jet[m % J]}")
+        #     print(board_to_str(board))
+        #     if wait: input()
 
         pos, stopped, h = gravity(board, p, pos, h)
-        if debug: 
-            print("Gravity")
-            print(board_to_str(board))
-            if wait: input()
+        # if debug: 
+        #     print("Gravity")
+        #     print(board_to_str(board))
+        #     if wait: input()
 
     if sys.argv[1] == "input.txt" and STOP in ANSWERS.keys():
         assert h == ANSWERS[STOP]
