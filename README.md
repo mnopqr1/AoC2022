@@ -104,3 +104,10 @@ the function yet!
 * Did the first part "by hand", not efficient but it worked
 * For the second part, worked out the constraints by hand, thought for quite a while about how to solve it with rectangle logic, got stuck implementing it, asked Z3 to solve this linear programming problem and it gave the answer in less than a second.
 * Sat-solvers are cool and mysterious tools but also feel a bit like cheating!
+
+## Day 16
+* Got part 1 fairly quickly, did not manage to make part 2 sufficiently efficient despite many different attempts
+
+## Day 17
+* Managed to get part 1 with some simple print debugging
+* Have to think about how to do part 2, needing to make the implementation MUCH more efficient, but nothing comes to mind right away.
