@@ -90,31 +90,58 @@ if __name__ == "__main__":
         jet = f.readline().rstrip()
     WIDTH = 7
     INITH = 0
-    STOP = 2022
+    #STOP = 2022
     STOP = 100_000
-    # STOP = 1_000_000_000_000
+    BIGSTOP = 1_000_000_000_000
     board = init()
 
     J = len(jet) # when to recycle jet list
-    c = 1 # how many blocks have been released
+    c = 0 # how many blocks have been released
     h = 0 # the highest non-moving point so far
     m = 0 # move number
     pos = (-1,-1) # position of the currently moving piece
     stopped = True # whether there is currently a moving piece
     p = 4 # the most recently spawned piece
 
+    spawnstate = [-1] * STOP
+    spawnheight = [-1] * STOP
+
     while True:
         if stopped:
             p = (p + 1) % 5
-            if c == STOP + 1:
+            if c == STOP:
                 break
+            if m%J in spawnstate:
+                prevc = spawnstate.index(m%J)
+                if prevc % 5 == p:
+                    if m % J in spawnstate[prevc+1:]:
+                        secondtime = spawnstate[prevc+1:].index(m%J) + prevc+1
+                        print(f"seeing for a third time: going to spawn {p} and jet is at {m%J}.") 
+                        print(f"previous time was block #{secondtime}, height then was {spawnheight[secondtime]}. this is block #{c}, height now is {h}. Increase of {h-spawnheight[secondtime]} since then.")
+                        period = c - secondtime
+                        increase = h - spawnheight[secondtime]
+                        nperiods = (BIGSTOP - c) // period
+                        remaining = (BIGSTOP - c) - (nperiods * period)
+                        almostthere = h + increase * nperiods
+                        lastbit = spawnheight[remaining + secondtime] - spawnheight[secondtime]
+                        print(f"number of blocks dropped since previous time I saw this state: {period}")
+                        print(f"dropping {period} more blocks {nperiods} times starting at height {h} will get you to height {almostthere} with a total of {c + period * nperiods} blocks dropped, and {remaining} blocks remaining to be dropped")
+                        print(f"dropping {remaining} blocks after block #{prevc} caused a height increase of {lastbit}.")
+                        print(f"so the total height after block {BIGSTOP} will be:")
+                        print(almostthere + lastbit)
+                        sys.exit()
+                
             #if c % 10_000 == 0 and debug: print(f"Spawn new piece #{c} of type {p}")
             pos = spawn(board, p, h)
-            #print(f"New piece position: {pos}, height: {h}")
+            # print(f"New piece #{c}, type {p}, position: {pos}, height: {h}")
+            spawnstate[c] = m % J
+            spawnheight[c] = h
             c += 1
+
             stopped = False
         pos = do_move(board, p, pos, jet[m % J])
         m += 1
+        # heights[m] = h
         # if debug:
         #     print(f"Move: {jet[m % J]}")
         #     print(board_to_str(board))
