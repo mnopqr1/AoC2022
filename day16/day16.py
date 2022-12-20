@@ -1,8 +1,8 @@
 NAME = dict()
 ID = dict()
-GREEDY = False
-
 import copy
+
+import time
 
 def read(filename):
     with open(filename) as f:
@@ -145,62 +145,102 @@ def is_in(s, v):
     return (s >> VAL_ID[v]) % 2 == 1
 
 def open_up(s, v):
-    assert is_in(s,v)
+    #assert is_in(s,v)
     return s - (1 << VAL_ID[v])
 
+def add(s, v):
+    if is_in(s,v):
+        return s
+    else:
+        return s + (1 << VAL_ID[v])
 def compl(s):
     return (V-1) ^ s
 
-
 @lru_cache(None)
-def solve2aux(t, me, el, cl):
+def solve2aux(t, me, el, op) -> int:
     """Best possible value with t minutes left, 
     if I am in position me, the elephant is in position el, 
-    and the currently closed valves are cl."""
-
+    and the currently open valves are op (a bitstring)."""  
     if t == 1:
-        return PRODUCE[compl(cl)]
-    best = 0
+        return PRODUCE[op]
 
-    # we both open valves
-    if IS_VAL[me] and is_in(cl, me) and IS_VAL[el] and is_in(cl, el):
-        newcl = open_up(cl, me)
-        if el != me:
-            newcl = open_up(newcl, el)
-        score = solve2aux(t-1, me, el, newcl)
+    best = 0
+    if IS_VAL[me] and IS_VAL[el]:
+        newop = add(add(op, me), el)
+        score = solve2aux(t-1, me, el, newop)
         if score > best:
             best = score
-        # if GREEDY: return score # greedy: open valves if you can RISKY, gives wrong intermediate answers
-    # I move, elephant opens valve
-    if IS_VAL[el] and is_in(cl, el):
-        newcl = open_up(cl, el)
-        for newme in NODES[me]:
-            score = solve2aux(t-1, newme, el, newcl)
-            if score > best:
-                best = score
-    # elephant moves, I open valve
-    if IS_VAL[me] and is_in(cl, me):
-        newcl = open_up(cl, me)
-        for newel in NODES[el]:
-            score = solve2aux(t-1, me, newel, newcl)
-            if score > best:
-                best = score
+    
+    if IS_VAL[me]:
+        newop = add(op, me)
+        score = max(solve2aux(t-1, me, newel, newop) for newel in NODES[el])
+        if score > best:
+            best = score
 
-    # we both move
-    for newme in NODES[me]:
-        for newel in NODES[el]:
-            score = solve2aux(t-1, newme, newel, cl)
-            if score > best:
-                best = score
-    return best + PRODUCE[compl(cl)]
+    if IS_VAL[el]:
+        newop = add(op, el)
+        score = max(solve2aux(t-1, newme, el, newop) for newme in NODES[me])
+        if score > best:
+            best = score
+    
 
-def solve2rec():
-    return solve2aux(26, ID["AA"], ID["AA"], V - 1)
+    score = max(solve2aux(t-1, newme, newel, op) for newme in NODES[me] for newel in NODES[el])
+    if score > best:
+        best = score
+
+
+    return best + PRODUCE[op]
+
+
+# @lru_cache(None)
+# def solve2aux(t, me, el, cl):
+#     """Best possible value with t minutes left, 
+#     if I am in position me, the elephant is in position el, 
+#     and the currently closed valves are cl."""
+
+#     if t == 1:
+#         return PRODUCE[compl(cl)]
+#     best = 0
+
+#     # we both open valves
+#     if IS_VAL[me] and is_in(cl, me) and IS_VAL[el] and is_in(cl, el):
+#         newcl = open_up(cl, me)
+#         if el != me:
+#             newcl = open_up(newcl, el)
+#         score = solve2aux(t-1, me, el, newcl)
+#         if score > best:
+#             best = score
+#         # if GREEDY: return score # greedy: open valves if you can RISKY, gives wrong intermediate answers
+#     # I move, elephant opens valve
+#     if IS_VAL[el] and is_in(cl, el):
+#         newcl = open_up(cl, el)
+#         for newme in NODES[me]:
+#             score = solve2aux(t-1, newme, el, newcl)
+#             if score > best:
+#                 best = score
+#     # elephant moves, I open valve
+#     if IS_VAL[me] and is_in(cl, me):
+#         newcl = open_up(cl, me)
+#         for newel in NODES[el]:
+#             score = solve2aux(t-1, me, newel, newcl)
+#             if score > best:
+#                 best = score
+
+#     # we both move
+#     for newme in NODES[me]:
+#         for newel in NODES[el]:
+#             score = solve2aux(t-1, newme, newel, cl)
+#             if score > best:
+#                 best = score
+#     return best + PRODUCE[compl(cl)]
+
+def solve2rec(t):
+    return solve2aux(t, ID["AA"], ID["AA"], 0)
 
 def test_solve2():
     for t in range(2, 27):
         m1 = solve2old(NODES, VALVES, t)
-        m2 = solve2aux(t, ID["AA"], ID["AA"], V-1)
+        m2 = solve2rec(t)
         assert m1 == m2, f"first discrepancy: t={t}, old method={m1}, new method={m2}"
 
 def solve2old(nodes, values, tmax):
@@ -282,5 +322,12 @@ if __name__ == "__main__":
     # print(PRODUCE[0])
     # print(PRODUCE[V-1])
     #print(solve2old(NODES,VALVES,26))
-    print(solve2rec())
-    # test_solve2()
+    #print(solve2rec())
+    #test_solve2()
+    t0 = time.time()
+    for t in range(2,27):
+        answer = solve2rec(t)
+        #answer = solve2old(NODES,VALVES,t)
+        t1 = time.time()
+        print(f"t={t}, answer={answer}, took {t1-t0} seconds")
+        t0 = t1
