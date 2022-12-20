@@ -65,3 +65,19 @@ def main():
         
 if __name__ == "__main__":
     main()
+
+# buggy part of Cell class but I don't get why
+# def seek_forward(self, n):
+#     cur = self
+#     for _ in range(n):
+#         cur = cur.nxt
+#     return cur
+
+# def move_ahead(self, n):
+#     toward = self.seek_forward(n)
+#     # remove self
+#     a, b = self.prv, self.nxt
+#     a.nxt, b.prv = b, a
+#     # insert self between toward and toward.nxt
+#     a, b = toward, toward.nxt
+#     a.nxt, b.prv, self.nxt, self.prv = self, self, b, a

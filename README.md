@@ -117,3 +117,10 @@ I can't really say I fully understand *why* this works: even if the moves and th
 
 ## Day 18
 * First part nice and easy, second part I was imagining 3D pictures but did not yet have the time (or courage) to express the ideas it into code.
+
+## Day 19
+* Struggles! And the only code to show for it runs too slow on the actual input, even for part 1...
+
+## Day 20
+* Managed on the second attempt.. I guess the main reason why you learn about circular linked lists is to be able to solve this exercise?
+* The code is slow (about 2 minutes) but works. I tried for a while to replace `move_right` by `move_ahead` that takes a number as parameter, but for some reason couldn't get it to work (some remnants of the code are at the end of `day20old`).
