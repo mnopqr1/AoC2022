@@ -124,3 +124,6 @@ I can't really say I fully understand *why* this works: even if the moves and th
 ## Day 20
 * Managed on the second attempt.. I guess the main reason why you learn about circular linked lists is to be able to solve this exercise?
 * The code is slow (about 2 minutes) but works. I tried for a while to replace `move_right` by `move_ahead` that takes a number as parameter, but for some reason couldn't get it to work (some remnants of the code are at the end of `day20old`).
+
+## Day 21
+* This was fun and smooth (when I finally made some time to do it). Managed both parts on the first try! 
