@@ -127,3 +127,12 @@ I can't really say I fully understand *why* this works: even if the moves and th
 
 ## Day 21
 * This was fun and smooth (when I finally made some time to do it). Managed both parts on the first try! 
+
+## Day 23
+* This one went surprisingly well.
+## Day 24
+Even if I was really stumped for a while, I eventually liked this puzzle because I feel like I eventually got to a clean solution by a few incremental insights:
+* The board positions are cyclic.
+* I can precompute the set of squares of the board that will be free at any given time in the cycle.
+* I then just need to keep track of a set of positions that I could have reached at time t, and stop when I see the goal position for the first time.
+* I need to take some special care with the start and end positions because from there only 2 moves are possible (stay or move) instead of 5.
