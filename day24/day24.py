@@ -2,14 +2,6 @@ from itertools import product
 from math import lcm
 import sys
 
-STEPS = [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]
-SYMBOL: dict[bool, str] = {True: "#", False: "."}
-debug = False
-
-def to_str(free: set[tuple[int, int]], h: int, w: int) -> str:
-    return "\n".join("".join(SYMBOL[(y, x) not in free] for x in range(w)) for y in range(h))
-
-
 def read(filename) -> list[str]:
     with open(filename) as f:
         lines = [l.rstrip() for l in f.readlines()]
@@ -30,6 +22,8 @@ def parse(board) -> tuple[list[set[tuple[int, int]]], int, int, int]:
 
     return free, h, w, p
 
+STEPS = {"start": [(0, 0), (1, 0)], "end": [(0, 0), (-1, 0)],
+         "other": [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]}
 
 def first_time(tmin, s, e):
     P = len(FREE)
@@ -38,26 +32,30 @@ def first_time(tmin, s, e):
     t = tmin
     while not done:
         new = set()
-        t = t + 1
         for (px, py) in last:
+            if (px, py) == START: k = "start"
+            if (px, py) == END:   k = "end"
+            else:                 k = "other"
             nextposs = set((px+dx, py+dy)
-                           for (dx, dy) in STEPS if (px+dx, py+dy) in FREE[t % P])
+                           for (dx, dy) in STEPS[k] if (px+dx, py+dy) in FREE[t % P])
             if e in nextposs:
                 done = True
                 break
             new.update(nextposs)
         last = new
-        # print(t, len(last))
-    return t + 1
+        t = t + 1
+    return t-1
 
 
 if __name__ == "__main__":
     board = read(sys.argv[1])
-    FREE, h, w, p = parse(board)
-    if debug: print(f"Period: {p}, Board height: {h}, width: {w}")
-    tmin = min(t for t in range(1, p) if (0, 0) in FREE[t])
-    if debug: print(f"First time > 0 that there is no blizzard at (0,0): {tmin}")
-    START = (0, 0)
-    END = (h-1, w-1)
-    t = first_time(tmin, START, END)
+    FREE, H, W, P = parse(board)
+    START = (-1, 0)
+    END = (H, W-1)
+    for p in range(P):
+        FREE[p].update({START, END})
+
+    t = first_time(1, START, END)
+    t = first_time(t, END, START)
+    t = first_time(t, START, END)
     print(t)
